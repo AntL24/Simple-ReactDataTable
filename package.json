@@ -2,7 +2,7 @@
   "name": "simple-reactdatatable",
   "version": "1.0.0",
   "description": "A simple component to display data on a table, with pagination, search, and column filters",
-  "main": "index.jsx",
+  "main": "./src/index.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

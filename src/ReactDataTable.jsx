@@ -1,33 +1,9 @@
 import React, { useCallback, useMemo, useReducer, useEffect } from 'react';
 import * as PropTypes from 'prop-types';
-import './DataTableStyles.css';
+import { debounce } from './utils/debounce';
+import { TableRow } from './components/TableRow';
+import './styles/DataTableStyles.css';
 
-//Debounce function to delay search so that it doesn't fire on every keystroke
-function debounce(func, wait) {
-    let timeout;
-
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-//Component for each row in the table
-function TableRow({ item, columns, onRowClick, visibleColumns }) {
-    console.log('item: ', item);
-    return (
-        <tr onClick={() => onRowClick(item)}>
-            {columns.filter(col => visibleColumns.has(col.key)).map((column) => (
-                <td key={column.key}>{item[column.key]}</td>
-            ))}
-        </tr>
-    );
-}
 const MemoizedTableRow = React.memo(TableRow);
 
 //Main component ReactDataTable
@@ -49,9 +25,6 @@ function ReactDataTable({
     useEffect(() => {
         dispatch({ type: 'SET_FILTERED_DATA', payload: data });
     }, [data]);  // Dependency array includes `data` to run the effect when `data` changes
-
-
-    console.log('data in npm component: ', data);
 
     const initialState = {
         searchTerm: '',
@@ -199,9 +172,6 @@ function ReactDataTable({
 
     const totalPages = Math.ceil(sortedData.length / state.entriesPerPage);
     const currentEntries = sortedData.slice((state.currentPage - 1) * state.entriesPerPage, state.currentPage * state.entriesPerPage);
-
-
-    console.log('First employee: ', data[0]);
     
     return (
         <div className="datatable-container">
