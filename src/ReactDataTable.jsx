@@ -21,7 +21,9 @@ function ReactDataTable({
     tableBodyFontSize = '1rem',
     paginationFontSize = '1rem',
     fontFamily = 'Arial',
+    containerWidth = '100%',
 }) {
+    
     useEffect(() => {
         dispatch({ type: 'SET_FILTERED_DATA', payload: data });
     }, [data]);  // Dependency array includes `data` to run the effect when `data` changes
@@ -119,6 +121,10 @@ function ReactDataTable({
         debouncedSearch(e.target.value);
     };
 
+    const containerStyle = {
+        width: containerWidth,
+    };
+
     const headerStyle = {
         height: headerHeight,
         fontSize: headerFontSize,
@@ -174,7 +180,7 @@ function ReactDataTable({
     const currentEntries = sortedData.slice((state.currentPage - 1) * state.entriesPerPage, state.currentPage * state.entriesPerPage);
     
     return (
-        <div className="datatable-container">
+        <div className="datatable-container" style={containerStyle}>
             <div className="datatable-header" style={headerStyle}>
                 <label>Show entries:
                     <select value={state.entriesPerPage} onChange={(e) => dispatch({ type: 'SET_ENTRIES_PER_PAGE', payload: Number(e.target.value) })}>
