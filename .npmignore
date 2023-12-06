@@ -1,0 +1,13 @@
+# Dossiers à ignorer
+node_modules/
+dist/
+build/
+# Fichiers à ignorer
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+*.test.jsx
+.gitignore
+```

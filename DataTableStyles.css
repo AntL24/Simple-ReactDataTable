@@ -1,0 +1,276 @@
+.employee-filter{
+    display:flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-y: scroll;
+}
+
+table, th, td {
+    border: none;
+}
+th{
+    border:none;
+}
+table td {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.tablecontent{
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+}
+thead{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+th {
+    position: relative;
+    background-color: #333; 
+    color: white;
+    height: 40px;
+    padding-right:20px;
+}
+
+th:hover {
+    cursor: pointer;
+}
+
+
+td {
+    min-width: 50px;
+    max-width: 50px;
+}
+
+tbody{
+    margin-top: 40px;
+}
+tbody tr:hover {
+    background-color: #f9f9f9; 
+    cursor: pointer;
+}
+
+input[type="text"] {
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+select {
+    padding: 7.9px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+select:hover {
+    cursor: pointer;
+}
+
+.search{
+    margin-left: 10px;
+}
+
+#startDate, #dateOfBirth:hover {
+    cursor: pointer;
+}
+
+.pagination{
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+
+.employee-list, .employee-details, .employee-info {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.datatable-container{
+    height: 100%;
+}
+.datatable-table-overflow-container {
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    margin-bottom: 2rem;
+}
+
+.datatable-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.datatable-header > label{
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+.dropdown > label {
+     margin-right: 10px;
+   
+}
+
+.pagination-text{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.sort-indicator {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.sort-indicator.asc::before {
+    content: "▲";
+}
+
+.sort-indicator.desc::before {
+    content: "▼";
+}
+.sort-indicator {
+    visibility: hidden; 
+}
+
+.sort-indicator.active {
+    visibility: visible;
+}
+
+
+.dropdown {
+    position: relative;
+    margin-right: 10px;
+    margin-bottom: 15px; 
+   
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 20;
+}
+
+.dropdown-content div {
+    color: black;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content div:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown > label {
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #eee;
+    padding: 6.41px;
+    border-radius: 4px;
+}
+
+.dropdown > label:hover {
+    background-color: #ddd;
+}
+
+.dropdown > label::after {
+    content: "⌵";
+    margin-left: 5px;
+}
+
+.dropdown-content input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); 
+    cursor: pointer;
+
+}
+
+.dropdown-content div {
+    margin: 8px 0;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.search-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+label .search-input {
+    padding: 7.9px 7.9px 7.9px 24px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 5px; 
+
+    width: 10px;
+    height: 10px;
+    border: solid 2px #635757;
+    border-radius: 50%;
+}
+
+.search-icon:after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 5.5px;
+    border-radius: 2px 2px 0px 0px;
+    background-color: #635757;
+    
+    bottom: -4px;
+    right: -2.5px;
+    transform: rotate(136deg);
+}
+
+.search-label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button{
+    background-color: #333;
+    color: #ffffff;
+    border: transparent solid 1px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ffffff;
+    color: #333;
+    border: #333 solid 1px;
+}
