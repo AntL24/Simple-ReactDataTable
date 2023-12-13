@@ -1,4 +1,3 @@
-// debounce.js
 export function debounce(func, wait) {
     let timeout;
 

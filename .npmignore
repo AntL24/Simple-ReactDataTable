@@ -1,13 +1,26 @@
-# Dossiers à ignorer
 node_modules/
 dist/
 build/
-# Fichiers à ignorer
+/tests/
 *.log
 *.tmp
 *.bak
 *.swp
 .DS_Store
 *.test.jsx
+*.spec.js
 .gitignore
+/docs/
+README.md
+LICENSE
+CHANGELOG.md
+.babelrc
+.webpack.config.js
+.eslintrc.js
+*.config.js
+/examples/
+/demo/
+/public/
+/src/
+/coverage/
 ```

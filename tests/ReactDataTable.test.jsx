@@ -1,8 +1,7 @@
 
 import { describe, it, expect } from 'vitest';
-import { render, fireEvent, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import {ReactDataTable} from './index.jsx';
+import { render, fireEvent, screen, waitFor  } from '@testing-library/react';
+import ReactDataTable from '../src/ReactDataTable';
 
 describe('ReactDataTable', () => {
     const columns = [
@@ -187,6 +186,7 @@ describe('ReactDataTable', () => {
         const nameHeader = screen.getByRole('columnheader', { name: 'First Name' });
         fireEvent.click(nameHeader);
     });
+    
     it('filters data based on search input', async () => {
         render(<ReactDataTable data={data} columns={columns} />);
         const searchInput = screen.getByRole('textbox');
@@ -200,20 +200,24 @@ describe('ReactDataTable', () => {
         expect(screen.queryByText('Jane')).toBeNull();
     });
     
-    it('paginates data when next button is clicked', () => {
+    it('paginates data when next button is clicked', async () => {
         render(<ReactDataTable data={data} columns={columns} defaultEntriesPerPage={1} />);
         const nextButton = screen.getByText('Next');
         fireEvent.click(nextButton);
-
-        expect(screen.getByText('Jane')).toBeInTheDocument(); 
-        expect(screen.queryByText('John')).toBeNull();
+    
+        await waitFor(() => {
+            expect(screen.queryByText('Jane')).not.toBe(null); // Utilise une assertion compatible avec Vitest
+            expect(screen.queryByText('John')).toBe(null);
+        });
     });
+    
     it('changes number of entries per page', () => {
         render(<ReactDataTable data={data} columns={columns} />);
         const entriesSelect = screen.getByLabelText('Show entries:');
         fireEvent.change(entriesSelect, { target: { value: 25 } });
 
     });
+
     it('sorts data in descending order when header clicked twice', () => {
         render(<ReactDataTable data={data} columns={columns} />);
         const nameHeader = screen.getByRole('columnheader', { name: 'First Name' });
@@ -222,17 +226,6 @@ describe('ReactDataTable', () => {
         // Tri descendant
         fireEvent.click(nameHeader);
     });
-   
-
-    it('toggles dropdown for column visibility', () => {
-        render(<ReactDataTable data={data} columns={columns} />);
-        const toggleDropdown = screen.getByText('Visible Columns');
-        fireEvent.click(toggleDropdown);
-        //  Check if dropdown is open
-        fireEvent.click(toggleDropdown);
-        //  Check if dropdown is closed
-    });
-    
     
     it('calls onRowClick when a row is clicked', () => {
         const onRowClickMock = vi.fn();

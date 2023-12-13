@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useReducer, useEffect } from 'react';
 import * as PropTypes from 'prop-types';
-import { debounce } from './utils/debounce';
-import { TableRow } from './components/TableRow';
+import { debounce } from './utils/debounce.jsx';
+import { TableRow } from './components/TableRow.jsx';
 import './styles/DataTableStyles.css';
 
 const MemoizedTableRow = React.memo(TableRow);

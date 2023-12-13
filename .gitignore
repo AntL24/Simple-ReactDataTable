@@ -1,2 +1,13 @@
 node_modules/
-package-lock.json
+package-lock.json^
+/dist/
+.env
+.cache/
+*.log
+.vscode/
+.idea/
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
