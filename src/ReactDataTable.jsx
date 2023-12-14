@@ -241,9 +241,9 @@ function ReactDataTable({
                             ))}
                         </tr>
                     </thead>
-                    {/* Display data based on current page and entries per page */}
                     <tbody>
-                        {/* Map through the current entries to display data with the TableRow component */}
+                        {/* Map through the currentEntries (based on sortedData, current page and entries per page)
+                        to display data with the TableRow component */}
                         {currentEntries.map((item) => (
                             <MemoizedTableRow
                                 key={item.id}
