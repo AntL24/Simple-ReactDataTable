@@ -4,6 +4,7 @@ import { debounce } from './utils/debounce.jsx';
 import { TableRow } from './components/TableRow.jsx';
 import './styles/DataTableStyles.css';
 
+//Memoized version of TableRow component to prevent unnecessary re-renders as memo does a shallow comparison of props
 const MemoizedTableRow = React.memo(TableRow);
 
 //Main component ReactDataTable
@@ -23,11 +24,15 @@ function ReactDataTable({
     fontFamily = 'Arial',
     containerWidth = '100%',
 }) {
-    
+
+    //Dispatch an action to set the filtered data when the data prop changes
     useEffect(() => {
         dispatch({ type: 'SET_FILTERED_DATA', payload: data });
-    }, [data]);  // Dependency array includes `data` to run the effect when `data` changes
+    }, [data]);
 
+    //Object with every property needed for the table
+    //Is used in the useReducer hook as the initial state
+    //and will be updated by the reducer function depending on the action dispatched
     const initialState = {
         searchTerm: '',
         filteredData: data,
@@ -38,37 +43,43 @@ function ReactDataTable({
         visibleColumns: new Set(columns.map(col => col.key)),
     };
 
+    //Reducer, will return the corresponding new state when an action is dispatched
+    //action type (ex: 'SET_SEARCH_TERM') determines which property of the state will be updated
+    //action payload (ex: 'John') is the new value of the property
     function reducer(state, action) {
         switch (action.type) {
-            case 'SET_SEARCH_TERM':
+            case 'SET_SEARCH_TERM'://Search input
                 return { ...state, searchTerm: action.payload };
-            case 'SET_FILTERED_DATA':
+            case 'SET_FILTERED_DATA'://Search results (or received data when the search input is empty)
                 return { ...state, filteredData: action.payload };
-            case 'SET_SEARCH_COLUMN':
+            case 'SET_SEARCH_COLUMN'://Column selected to search in
                 return { ...state, searchColumn: action.payload };
-            case 'SET_CURRENT_PAGE':
+            case 'SET_CURRENT_PAGE'://Page viewed in the table
                 return { ...state, currentPage: action.payload };
-            case 'SET_ENTRIES_PER_PAGE':
+            case 'SET_ENTRIES_PER_PAGE'://Page size
                 return { ...state, entriesPerPage: action.payload };
-            case 'SET_SORT_COLUMN':
+            case 'SET_SORT_COLUMN'://Sort selected column in ascending, descending or neutral order
                 return { ...state, sortColumn: action.payload };
-            case 'SET_VISIBLE_COLUMNS':
-                return { ...state, visibleColumns: action.payload };
             default:
                 return state;
         }
     }
 
+    //useReducer hook which will update the state via the reducer function
+    //function reducer is the first parameter, initialState (ex: 
+    //It updates the state with the results of the reducer function
     const [state, dispatch] = useReducer(reducer, initialState);
 
+    //Function to search for a value in the data
+    //It is used with a debounce in the handleSearch function
     const search = useCallback((name, items) => {
         if (!Array.isArray(items)) {
             console.error('Expected an array for items');
             return [];
         }
 
-        const results = new Set();
-        const searchTerms = name.toLowerCase().split(/\s+/);
+        const results = new Set();//A set is used to avoid duplicates
+        const searchTerms = name.toLowerCase().split(/\s+/);//We split the search value to search for each word
 
         items.forEach(item => {
             let concatenatedData = '';
@@ -98,6 +109,7 @@ function ReactDataTable({
         return Array.from(results);
     }, [state.searchColumn, columns]);
 
+    //Debounce function to call search function
     const debouncedSearch = useCallback(
         debounce((searchValue) => {
             let results;
@@ -111,38 +123,41 @@ function ReactDataTable({
         [data, dispatch, search]
     );
 
+    //onRowClick is the function passed as a prop to the TableRow component
+    //only re-created when the onRowClick prop changes
     const memoizedOnRowClick = useCallback(
         (item) => onRowClick(item),
         [onRowClick]
     );
 
+    //Used to send the search value to the search function when the search input changes
     const handleSearch = (e) => {
         dispatch({ type: 'SET_SEARCH_TERM', payload: e.target.value });
         debouncedSearch(e.target.value);
     };
 
+    //Props Styles
     const containerStyle = {
         width: containerWidth,
     };
-
     const headerStyle = {
         height: headerHeight,
         fontSize: headerFontSize,
         fontFamily,
     };
-
     const tableBodyStyle = {
         height: tableBodyHeight,
         fontSize: tableBodyFontSize,
         fontFamily,
     };
-
     const paginationStyle = {
         height: paginationHeight,
         fontSize: paginationFontSize,
         fontFamily,
     };
 
+    //Memoized version of the sorted data
+    //Sorts the data based on (any data change or search input change)
     const sortedData = useMemo(() => {
         let array = [...state.filteredData];
         if (state.sortColumn.direction === 'neutral') {
@@ -155,8 +170,10 @@ function ReactDataTable({
                 return String(b[state.sortColumn.key]).localeCompare(String(a[state.sortColumn.key]));
             }
         });
-    }, [state.filteredData, state.sortColumn]);
+    }, [state.filteredData, state.sortColumn]);//Only re-sort when the filtered data or sort column changes
 
+    //Function to handle the click on a column header
+    //It will dispatch an action to update the sortColumn
     const handleHeaderClick = (columnKey) => {
         let newDirection = 'asc'; //Default to ascending on the first click
 
@@ -175,13 +192,15 @@ function ReactDataTable({
         });
     };
 
-
+    //Calculate the total number of pages based on the number of entries per page
     const totalPages = Math.ceil(sortedData.length / state.entriesPerPage);
+    //Get the entries to display based on the current page and entries per page
     const currentEntries = sortedData.slice((state.currentPage - 1) * state.entriesPerPage, state.currentPage * state.entriesPerPage);
-    
+
     return (
         <div className="datatable-container" style={containerStyle}>
             <div className="datatable-header" style={headerStyle}>
+                {/* Select the number of entries per page */}
                 <label>Show entries:
                     <select value={state.entriesPerPage} onChange={(e) => dispatch({ type: 'SET_ENTRIES_PER_PAGE', payload: Number(e.target.value) })}>
                         <option value={10}>10</option>
@@ -191,6 +210,7 @@ function ReactDataTable({
                     </select>
                 </label>
 
+                {/* Select the column to search in*/}
                 <label>Search Column:
                     <select value={state.searchColumn} onChange={(e) => dispatch({ type: 'SET_SEARCH_COLUMN', payload: e.target.value })}>
                         <option value="all">All</option>
@@ -205,7 +225,7 @@ function ReactDataTable({
                     <input type="text" value={state.searchTerm} onChange={handleSearch} className="search-input" />
                     <div className="search-icon"></div>
                 </label>
-                
+
             </div>
 
             <div className='datatable-table-overflow-container' style={tableBodyStyle}>

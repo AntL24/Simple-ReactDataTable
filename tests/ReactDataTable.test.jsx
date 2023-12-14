@@ -206,7 +206,7 @@ describe('ReactDataTable', () => {
         fireEvent.click(nextButton);
     
         await waitFor(() => {
-            expect(screen.queryByText('Jane')).not.toBe(null); // Utilise une assertion compatible avec Vitest
+            expect(screen.queryByText('Jane')).not.toBe(null);
             expect(screen.queryByText('John')).toBe(null);
         });
     });
