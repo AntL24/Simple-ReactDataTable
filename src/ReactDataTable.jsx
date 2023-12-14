@@ -156,8 +156,9 @@ function ReactDataTable({
         fontFamily,
     };
 
-    //Memoized version of the sorted data
-    //Sorts the data based on (any data change or search input change)
+    //Memoized version of the sorted data, will be used by totalPages and currentEntries
+    //to calculate the number of pages and the entries to display in the current page
+    //Sorts the data on any data change or search input change
     const sortedData = useMemo(() => {
         let array = [...state.filteredData];
         if (state.sortColumn.direction === 'neutral') {
@@ -242,6 +243,7 @@ function ReactDataTable({
                     </thead>
                     {/* Display data based on current page and entries per page */}
                     <tbody>
+                        {/* Map through the current entries to display data with the TableRow component */}
                         {currentEntries.map((item) => (
                             <MemoizedTableRow
                                 key={item.id}
