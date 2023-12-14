@@ -109,7 +109,7 @@ function ReactDataTable({
         return Array.from(results);
     }, [state.searchColumn, columns]);
 
-    //Debounce function to call search function
+    //Debounce function to call search function with a delay
     const debouncedSearch = useCallback(
         debounce((searchValue) => {
             let results;
@@ -123,7 +123,7 @@ function ReactDataTable({
         [data, dispatch, search]
     );
 
-    //onRowClick is the function passed as a prop to the TableRow component
+    //onRowClick is the function passed as a prop
     //only re-created when the onRowClick prop changes
     const memoizedOnRowClick = useCallback(
         (item) => onRowClick(item),
