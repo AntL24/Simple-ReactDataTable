@@ -44,27 +44,31 @@ function MyComponent() {
 
 **==> Props:**
 
--data (Array): Data to display in a table format. Must be an array of objects.
+- data (Array): Data to display in a table format. Must be an array of objects.
 
--columns (Array): Table columns. Each object should contain a key and a title.
+- columns (Array): Table columns. Each object should contain a key and a title.
 
--onRowClick (Function): Function called when a row is clicked. Receives the data object of the row.
+- onRowClick (Function): Function called when a row is clicked. Receives the data object of the row.
 
--defaultEntriesPerPage (Number): Number of entries to show per page. Default is 10.
+- defaultEntriesPerPage (Number): Number of entries to show per page. Default is 10.
 
--sortColumnParam (String): Initial column key for sorting. Default is 'name'.
+- sortColumnParam (String): Initial column key for sorting. Default is 'name'.
 
--headerHeight, tableBodyHeight, paginationHeight (String): Custom height for different parts of the table. Default is 'auto'.
+- headerHeight, tableBodyHeight, paginationHeight (String): Custom height for different parts of the table. Default is 'auto'.
 
--headerFontSize, tableBodyFontSize, paginationFontSize (String): Font size for the header, body, and pagination. Default is '1rem'.
+- headerFontSize, tableBodyFontSize, paginationFontSize (String): Font size for the header, body, and pagination. Default is '1rem'.
 
--fontFamily (String): Font family for the table text. Default is 'Arial'.
+- fontFamily (String): Font family for the table text. Default is 'Arial'.
 
--containerWidth (String): Width of the table container. Default is '100%'.
+- containerWidth (String): Width of the table container. Default is '100%'.
 
 
 ## Dependencies
 
-React
+- React
+- prop-types
+- Node.js (v20.8.1 or newer)
 
-prop-types
+## Recommended Development Environment
+
+- This package was made in Vscode.

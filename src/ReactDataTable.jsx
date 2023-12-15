@@ -158,7 +158,7 @@ function ReactDataTable({
 
     //Memoized version of the sorted data, will be used by totalPages and currentEntries
     //to calculate the number of pages and the entries to display in the current page
-    //Sorts the data on any data change or search input change
+    //Sorts the data when: any data change or search input change
     const sortedData = useMemo(() => {
         let array = [...state.filteredData];
         if (state.sortColumn.direction === 'neutral') {
