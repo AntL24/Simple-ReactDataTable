@@ -50,7 +50,7 @@ function ReactDataTable({
         switch (action.type) {
             case 'SET_SEARCH_TERM'://Search input
                 return { ...state, searchTerm: action.payload };
-            case 'SET_FILTERED_DATA'://Search results (or received data when the search input is empty)
+            case 'SET_FILTERED_DATA'://Search results (or full received data when the search input is empty)
                 return { ...state, filteredData: action.payload };
             case 'SET_SEARCH_COLUMN'://Column selected to search in
                 return { ...state, searchColumn: action.payload };
@@ -67,7 +67,7 @@ function ReactDataTable({
 
     //useReducer hook which will update the state via the reducer function
     //function reducer is the first parameter, initialState (ex: 
-    //It updates the state with the results of the reducer function
+    //It updates the state with the results returned by the reducer function
     const [state, dispatch] = useReducer(reducer, initialState);
 
     //Function to search for a value in the data
@@ -82,6 +82,9 @@ function ReactDataTable({
         const searchTerms = name.toLowerCase().split(/\s+/);//We split the search value to search for each word
 
         items.forEach(item => {
+
+            //Prepare data by searching in all columns or only in the selected column
+            //add the data to the concatenatedData string
             let concatenatedData = '';
             columns.forEach(column => {
                 if (state.searchColumn === 'all' || state.searchColumn === column.key) {
@@ -89,10 +92,12 @@ function ReactDataTable({
                 }
             });
 
+            //Datasegments contains the data we will search in, with each word separated by a space
             const dataSegments = concatenatedData.split(/\s+/);
 
+            //For each search term, check if it is found in the data
             let termFound = false;
-            for (let term of searchTerms) {
+            for (let term of searchTerms) {//Check if all search terms are found in the data
                 if (dataSegments.some(segment => segment.includes(term))) {
                     termFound = true;
                 } else {
@@ -100,7 +105,7 @@ function ReactDataTable({
                     break;
                 }
             }
-
+            
             if (termFound) {
                 results.add(item);
             }

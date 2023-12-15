@@ -1,6 +1,6 @@
 {
   "name": "quite-simple-reactdatatable",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "A simple component to display data on a table, with pagination, search, column specific search, and column asc/desc sorting.",
   "type": "module",
   "main": "dist/bundle.js",
